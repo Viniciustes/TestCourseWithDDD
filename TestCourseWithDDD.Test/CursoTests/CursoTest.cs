@@ -17,6 +17,7 @@ namespace TestCourseWithDDD.Test.CursoTests
         private readonly PublicoAlvo _publicoAlvo;
         private readonly string _descricao;
         private readonly DateTime _dataCadastro;
+        private readonly bool _ativo;
 
         public CursoTest()
         {
@@ -28,6 +29,7 @@ namespace TestCourseWithDDD.Test.CursoTests
             _publicoAlvo = PublicoAlvo.Universitário;
             _descricao = faker.Lorem.Paragraph();
             _dataCadastro = DateTime.Now;
+            _ativo = faker.Random.Bool();
         }
 
         [Fact]
@@ -40,10 +42,11 @@ namespace TestCourseWithDDD.Test.CursoTests
                 Nome = _nome,
                 PublicoAlvo = _publicoAlvo,
                 Descricao = _descricao,
-                DataCadastro = _dataCadastro
+                DataCadastro = _dataCadastro,
+                Ativo = _ativo
             };
 
-            var curso = new Curso(cursoEsperado.Nome, cursoEsperado.PublicoAlvo, cursoEsperado.Valor, cursoEsperado.Descricao, cursoEsperado.CargaHoraria, cursoEsperado.DataCadastro);
+            var curso = new Curso(cursoEsperado.Nome, cursoEsperado.PublicoAlvo, cursoEsperado.Valor, cursoEsperado.Descricao, cursoEsperado.CargaHoraria, cursoEsperado.DataCadastro, cursoEsperado.Ativo);
 
             cursoEsperado.ToExpectedObject().ShouldMatch(curso);
         }

@@ -12,6 +12,7 @@ namespace TestCourseWithDDD.Test.Builders
         private PublicoAlvo _publicoAlvo = PublicoAlvo.Empreendedor;
         private string _descricao = "Descição do curso";
         private readonly DateTime _dataCadastro =  DateTime.Now;
+        private readonly bool _ativo = true;
 
         public static CursoBuilder CursoNovo()
         {
@@ -50,7 +51,7 @@ namespace TestCourseWithDDD.Test.Builders
 
         public Curso ConstruirCurso()
         {
-            return new Curso(_nome, _publicoAlvo, _valor, _descricao, _cargaHoraria, _dataCadastro);
+            return new Curso(_nome, _publicoAlvo, _valor, _descricao, _cargaHoraria, _dataCadastro, _ativo);
         }
     }
 }

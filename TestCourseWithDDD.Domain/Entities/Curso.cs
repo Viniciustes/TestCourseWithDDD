@@ -5,7 +5,7 @@ namespace TestCourseWithDDD.Domain.Entities
 {
     public class Curso
     {
-        public Curso(string nome, PublicoAlvo publicoAlvo, double valor, string descricao, double cargaHoraria, DateTime dataCadastro)
+        public Curso(string nome, PublicoAlvo publicoAlvo, double valor, string descricao, double cargaHoraria, DateTime dataCadastro, bool ativo)
         {
             ValidaCampos(nome, valor, cargaHoraria);
 
@@ -15,6 +15,7 @@ namespace TestCourseWithDDD.Domain.Entities
             PublicoAlvo = publicoAlvo;
             DataCadastro = dataCadastro;
             CargaHoraria = cargaHoraria;
+            Ativo = ativo;
         }
 
         public string Nome { get; private set; }
@@ -23,6 +24,7 @@ namespace TestCourseWithDDD.Domain.Entities
         public double CargaHoraria { get; private set; }
         public DateTime DataCadastro { get; private set; }
         public PublicoAlvo PublicoAlvo { get; private set; }
+        public bool Ativo { get; private set; }
 
         private static void ValidaCampos(string nome, double valor, double cargaHoraria)
         {
