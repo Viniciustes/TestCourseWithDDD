@@ -1,5 +1,9 @@
-﻿using ExpectedObjects;
+﻿using Bogus;
+using ExpectedObjects;
 using System;
+using TestCourseWithDDD.Domain.Entities;
+using TestCourseWithDDD.Domain.Enums;
+using TestCourseWithDDD.Test.Builders;
 using TestCourseWithDDD.Test.Exceptions;
 using Xunit;
 
@@ -11,13 +15,19 @@ namespace TestCourseWithDDD.Test.CursoTests
         private readonly double _cargaHoraria;
         private readonly string _nome;
         private readonly PublicoAlvo _publicoAlvo;
+        private readonly string _descricao;
+        private readonly DateTime _dataCadastro;
 
         public CursoTest()
         {
-            _valor = (double)950;
-            _cargaHoraria = (double)80;
-            _nome = "Informática";
+            var faker = new Faker();
+
+            _valor = faker.Random.Double(100,5000);
+            _cargaHoraria = faker.Random.Double(1, 100);
+            _nome = faker.Random.Word();
             _publicoAlvo = PublicoAlvo.Universitário;
+            _descricao = faker.Lorem.Paragraph();
+            _dataCadastro = DateTime.Now;
         }
 
         [Fact]
@@ -29,9 +39,11 @@ namespace TestCourseWithDDD.Test.CursoTests
                 CargaHoraria = _cargaHoraria,
                 Nome = _nome,
                 PublicoAlvo = _publicoAlvo,
+                Descricao = _descricao,
+                DataCadastro = _dataCadastro
             };
 
-            var curso = new Curso(cursoEsperado.Nome, cursoEsperado.PublicoAlvo, cursoEsperado.Valor, cursoEsperado.CargaHoraria);
+            var curso = new Curso(cursoEsperado.Nome, cursoEsperado.PublicoAlvo, cursoEsperado.Valor, cursoEsperado.Descricao, cursoEsperado.CargaHoraria, cursoEsperado.DataCadastro);
 
             cursoEsperado.ToExpectedObject().ShouldMatch(curso);
         }
@@ -42,7 +54,7 @@ namespace TestCourseWithDDD.Test.CursoTests
         [InlineData(null)]
         public void NomeNaoPodeSerInvalido(string nomeInvalido)
         {
-            Assert.Throws<ArgumentException>(() => new Curso(nomeInvalido, _publicoAlvo, _valor, _cargaHoraria)).WithMessage("Nome Inválido!");
+            Assert.Throws<ArgumentException>(() => CursoBuilder.CursoNovo().CursoComNome(nomeInvalido).ConstruirCurso()).WithMessage("Nome Inválido!");
         }
 
         [Theory]
@@ -51,7 +63,7 @@ namespace TestCourseWithDDD.Test.CursoTests
         [InlineData(-2)]
         public void CargaHorariaNaoPodeSerMenorQue1(double cargaHorariaInvalida)
         {
-            Assert.Throws<ArgumentException>(() => new Curso(_nome, _publicoAlvo, _valor, cargaHorariaInvalida)).WithMessage("Carga Horária Inválida!");
+            Assert.Throws<ArgumentException>(() => CursoBuilder.CursoNovo().CursoComCargaHoraria(cargaHorariaInvalida).ConstruirCurso()).WithMessage("Carga Horária Inválida!");
         }
 
         [Theory]
@@ -59,40 +71,7 @@ namespace TestCourseWithDDD.Test.CursoTests
         [InlineData(-2)]
         public void ValorDoCursoDeveSerMaiorQue0(double valorInvalido)
         {
-            Assert.Throws<ArgumentException>(() => new Curso(_nome, _publicoAlvo, valorInvalido, _cargaHoraria)).WithMessage("Valor Inválido!");
+            Assert.Throws<ArgumentException>(() => CursoBuilder.CursoNovo().CursoComValor(valorInvalido).ConstruirCurso()).WithMessage("Valor Inválido!");
         }
-    }
-
-    public enum PublicoAlvo
-    {
-        Estudante,
-        Universitário,
-        Empregado,
-        Empreendedor
-    }
-
-    public class Curso
-    {
-        public Curso(string nome, PublicoAlvo publicoAlvo, double valor, double cargaHoraria)
-        {
-            if (string.IsNullOrWhiteSpace(nome))
-                throw new ArgumentException("Nome Inválido!");
-
-            if (cargaHoraria < 1)
-                throw new ArgumentException("Carga Horária Inválida!");
-
-            if (valor <= 0)
-                throw new ArgumentException("Valor Inválido!");
-
-            Nome = nome;
-            Valor = valor;
-            PublicoAlvo = publicoAlvo;
-            CargaHoraria = cargaHoraria;
-        }
-
-        public string Nome { get; private set; }
-        public double Valor { get; private set; }
-        public double CargaHoraria { get; private set; }
-        public PublicoAlvo PublicoAlvo { get; private set; }
     }
 }
