@@ -26,7 +26,7 @@ namespace TestCourseWithDDD.Test.CursoTests
             _valor = faker.Random.Double(100,5000);
             _cargaHoraria = faker.Random.Double(1, 100);
             _nome = faker.Random.Word();
-            _publicoAlvo = PublicoAlvo.Universitário;
+            _publicoAlvo = faker.Random.Enum<PublicoAlvo>();
             _descricao = faker.Lorem.Paragraph();
             _dataCadastro = DateTime.Now;
             _ativo = faker.Random.Bool();
