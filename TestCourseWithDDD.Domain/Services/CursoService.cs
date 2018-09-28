@@ -51,6 +51,7 @@ namespace TestCourseWithDDD.Domain.Services
 
             if (publicoAlvo == null)
                 throw new ArgumentException("Público alvo inválido!");
+
             return (PublicoAlvo)publicoAlvo;
         }
     }
