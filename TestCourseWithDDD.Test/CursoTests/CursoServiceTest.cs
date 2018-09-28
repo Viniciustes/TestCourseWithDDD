@@ -1,9 +1,12 @@
 ﻿using Bogus;
 using Moq;
 using System;
+using TestCourseWithDDD.Domain.Dtos;
 using TestCourseWithDDD.Domain.Entities;
 using TestCourseWithDDD.Domain.Enums;
 using TestCourseWithDDD.Domain.Interfaces.Repositories;
+using TestCourseWithDDD.Domain.Services;
+using TestCourseWithDDD.Test.Builders;
 using TestCourseWithDDD.Test.Exceptions;
 using Xunit;
 
@@ -11,7 +14,6 @@ namespace TestCourseWithDDD.Test.CursoTests
 {
     public class CursoServiceTest
     {
-
         private CursoDto _cursoDto;
         private Mock<ICursoRepositorio> _cursoRepositorioMock;
         private CursoService _cursoService;
@@ -74,53 +76,14 @@ namespace TestCourseWithDDD.Test.CursoTests
 
             Assert.Throws<ArgumentException>(() => _cursoService.Gravar(_cursoDto)).WithMessage("Público alvo inválido!");
         }
-    }
 
-    public class CursoService
-    {
-        private readonly ICursoRepositorio _cursoRepository;
-
-        public CursoService(ICursoRepositorio cursoRepository)
+        [Fact]
+        public void CursoNaoPodeTerMesmoNomeExistente()
         {
-            _cursoRepository = cursoRepository;
+            var curso = CursoBuilder.CursoNovo().CursoComNome(_cursoDto.Nome).ConstruirCurso();
+            _cursoRepositorioMock.Setup(x => x.ObterPorNome(_cursoDto.Nome)).Returns(curso);
+
+            Assert.Throws<ArgumentException>(() => _cursoService.Gravar(_cursoDto)).WithMessage("Nome do curso já existe!");
         }
-
-        public void Gravar(CursoDto cursoDto)
-        {
-            var publicoAlvo = ValidarEnumPublicoAlvo(cursoDto);
-
-            var curso = new Curso(cursoDto.Nome, publicoAlvo, cursoDto.Valor, cursoDto.Descricao, cursoDto.CargaHoraria, cursoDto.DataCadastro, cursoDto.Ativo);
-
-            _cursoRepository.Gravar(curso);
-        }
-
-        public void Alterar(CursoDto cursoDto)
-        {
-            var publicoAlvo = ValidarEnumPublicoAlvo(cursoDto);
-
-            var curso = new Curso(cursoDto.Nome, publicoAlvo, cursoDto.Valor, cursoDto.Descricao, cursoDto.CargaHoraria, cursoDto.DataCadastro, cursoDto.Ativo);
-
-            _cursoRepository.Alterar(curso);
-        }
-
-        private static PublicoAlvo ValidarEnumPublicoAlvo(CursoDto cursoDto)
-        {
-            Enum.TryParse(typeof(PublicoAlvo), cursoDto.PublicoAlvo, out var publicoAlvo);
-
-            if (publicoAlvo == null)
-                throw new ArgumentException("Público alvo inválido!");
-            return (PublicoAlvo)publicoAlvo;
-        }
-    }
-
-    public class CursoDto
-    {
-        public string Nome { get; set; }
-        public double Valor { get; set; }
-        public string Descricao { get; set; }
-        public string PublicoAlvo { get; set; }
-        public DateTime DataCadastro { get; set; }
-        public double CargaHoraria { get; set; }
-        public bool Ativo { get; set; }
     }
 }

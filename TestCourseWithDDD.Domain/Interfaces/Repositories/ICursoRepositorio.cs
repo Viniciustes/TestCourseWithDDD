@@ -8,5 +8,6 @@ namespace TestCourseWithDDD.Domain.Interfaces.Repositories
         void Gravar(Curso curso);
         void Alterar(Curso curso);
         void Apagar(int Id);
+        Curso ObterPorNome(string cursoDtoNome);
     }
 }

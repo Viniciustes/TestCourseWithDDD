@@ -3,12 +3,10 @@ using TestCourseWithDDD.Domain.Enums;
 
 namespace TestCourseWithDDD.Domain.Entities
 {
-    public class Curso
+    public class Curso : Entity
     {
         public Curso(string nome, PublicoAlvo publicoAlvo, double valor, string descricao, double cargaHoraria, DateTime dataCadastro, bool ativo)
         {
-            ValidaCampos(nome, valor, cargaHoraria);
-
             Nome = nome;
             Valor = valor;
             Descricao = descricao;
@@ -16,25 +14,27 @@ namespace TestCourseWithDDD.Domain.Entities
             DataCadastro = dataCadastro;
             CargaHoraria = cargaHoraria;
             Ativo = ativo;
+
+            ValidaCampos();
         }
 
-        public string Nome { get; private set; }
-        public double Valor { get; private set; }
-        public string Descricao { get; private set; }
-        public double CargaHoraria { get; private set; }
-        public DateTime DataCadastro { get; private set; }
-        public PublicoAlvo PublicoAlvo { get; private set; }
-        public bool Ativo { get; private set; }
+        public string Nome { get; }
+        public double Valor { get; }
+        public string Descricao { get; }
+        public double CargaHoraria { get; }
+        public DateTime DataCadastro { get; }
+        public PublicoAlvo PublicoAlvo { get; }
+        public bool Ativo { get; }
 
-        private static void ValidaCampos(string nome, double valor, double cargaHoraria)
+        private void ValidaCampos()
         {
-            if (string.IsNullOrWhiteSpace(nome))
+            if (string.IsNullOrWhiteSpace(Nome))
                 throw new ArgumentException("Nome Inválido!");
 
-            if (cargaHoraria < 1)
+            if (CargaHoraria < 1)
                 throw new ArgumentException("Carga Horária Inválida!");
 
-            if (valor <= 0)
+            if (Valor <= 0)
                 throw new ArgumentException("Valor Inválido!");
         }
     }

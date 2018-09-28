@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="microsoft.entityframeworkcore" Version="2.1.3" />
+    <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="2.1.3" />
+    <PackageReference Include="microsoft.entityframeworkcore.tools" Version="2.1.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestCourseWithDDD.Domain\TestCourseWithDDD.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
