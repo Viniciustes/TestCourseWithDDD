@@ -6,6 +6,8 @@ namespace TestCourseWithDDD.Domain.Interfaces.Repositories
     {
         void Adicionar(TEntity entity);
 
+        void Alterar(TEntity entity);
+
         IList<TEntity> Listar();
 
         TEntity ObterPorId(int id);

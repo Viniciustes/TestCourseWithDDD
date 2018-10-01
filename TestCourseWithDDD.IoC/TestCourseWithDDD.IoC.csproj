@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="microsoft.EntityFrameworkCore" Version="2.1.3" />
+    <PackageReference Include="microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestCourseWithDDD.Domain\TestCourseWithDDD.Domain.csproj" />
+    <ProjectReference Include="..\TestCourseWithDDD.Infrastructure\TestCourseWithDDD.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

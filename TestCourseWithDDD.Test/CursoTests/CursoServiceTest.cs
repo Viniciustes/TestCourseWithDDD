@@ -15,7 +15,7 @@ namespace TestCourseWithDDD.Test.CursoTests
     public class CursoServiceTest
     {
         private CursoDto _cursoDto;
-        private Mock<ICursoRepositorio> _cursoRepositorioMock;
+        private Mock<IRepositoryCurso> _cursoRepositorioMock;
         private CursoService _cursoService;
 
         public CursoServiceTest()
@@ -33,7 +33,7 @@ namespace TestCourseWithDDD.Test.CursoTests
                 Ativo = faker.Random.Bool()
             };
 
-            _cursoRepositorioMock = new Mock<ICursoRepositorio>();
+            _cursoRepositorioMock = new Mock<IRepositoryCurso>();
 
             _cursoService = new CursoService(_cursoRepositorioMock.Object);
         }
@@ -43,7 +43,7 @@ namespace TestCourseWithDDD.Test.CursoTests
         {
             _cursoService.Gravar(_cursoDto);
 
-            _cursoRepositorioMock.Verify(x => x.Gravar(It.Is<Curso>(
+            _cursoRepositorioMock.Verify(x => x.Adicionar(It.Is<Curso>(
                 y => y.Nome == _cursoDto.Nome &&
                 y.Valor == _cursoDto.Valor &&
                 y.Descricao == _cursoDto.Descricao &&

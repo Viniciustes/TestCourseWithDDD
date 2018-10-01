@@ -8,9 +8,9 @@ namespace TestCourseWithDDD.Domain.Services
 {
     public class CursoService
     {
-        private readonly ICursoRepositorio _cursoRepository;
+        private readonly IRepositoryCurso _cursoRepository;
 
-        public CursoService(ICursoRepositorio cursoRepository)
+        public CursoService(IRepositoryCurso cursoRepository)
         {
             _cursoRepository = cursoRepository;
         }
@@ -23,7 +23,7 @@ namespace TestCourseWithDDD.Domain.Services
 
             var curso = new Curso(cursoDto.Nome, publicoAlvo, cursoDto.Valor, cursoDto.Descricao, cursoDto.CargaHoraria, cursoDto.DataCadastro, cursoDto.Ativo);
 
-            _cursoRepository.Gravar(curso);
+            _cursoRepository.Adicionar(curso);
         }
 
         public void Alterar(CursoDto cursoDto)

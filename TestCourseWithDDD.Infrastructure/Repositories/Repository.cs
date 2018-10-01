@@ -29,5 +29,10 @@ namespace TestCourseWithDDD.Infrastructure.Repositories
         {
             return Context.Set<TEntity>().ToList();
         }
+
+        public void Alterar(TEntity entity)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
